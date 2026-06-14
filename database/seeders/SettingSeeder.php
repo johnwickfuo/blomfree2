@@ -10,6 +10,9 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $defaults = [
+            // Branding — paths on the public disk; empty until an admin uploads.
+            'site_logo_path' => '',
+            'ceo_image_path' => '',
             'inspection_days' => 'Mon,Tue,Wed,Thu,Fri,Sat',
             'inspection_time_slots' => '9am-11am,11am-1pm,1pm-3pm,3pm-5pm',
             'admin_notification_email' => 'admin@blomfree.com',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -44,6 +45,10 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
+            ],
+            'branding' => fn (): array => [
+                'logo_url' => Setting::publicUrl('site_logo_path'),
+                'ceo_image_url' => Setting::publicUrl('ceo_image_path'),
             ],
         ];
     }

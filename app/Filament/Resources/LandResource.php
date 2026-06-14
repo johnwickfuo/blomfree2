@@ -20,9 +20,13 @@ class LandResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
 
-    protected static ?string $navigationGroup = 'Estates & Properties';
+    protected static ?string $navigationGroup = 'Real Estate';
 
-    protected static ?string $navigationLabel = 'Lands';
+    protected static ?string $navigationLabel = 'Real Estate';
+
+    protected static ?string $modelLabel = 'property';
+
+    protected static ?string $pluralModelLabel = 'properties';
 
     protected static ?int $navigationSort = 1;
 

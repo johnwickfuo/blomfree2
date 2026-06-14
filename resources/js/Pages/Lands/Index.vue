@@ -88,7 +88,7 @@ function statusVariant(status: string): 'success' | 'warning' | 'neutral' {
 
 <template>
     <SeoMeta
-        title="Lands for Sale — BLOMFREE Estates"
+        title="Real Estate for Sale — BLOMFREE"
         description="Verified plots across Nigeria. Flood-free, with confirmed documents and flexible payment plans on many listings."
     />
 
@@ -108,7 +108,7 @@ function statusVariant(status: string): 'success' | 'warning' | 'neutral' {
                 />
             </template>
             <template #eyebrow>
-                <Badge variant="info">BLOMFREE Estates &amp; Properties</Badge>
+                <Badge variant="info">BLOMFREE Real Estate</Badge>
             </template>
             <template #title>
                 <h1
@@ -142,7 +142,7 @@ function statusVariant(status: string): 'success' | 'warning' | 'neutral' {
                     >
                         <div class="flex items-center justify-between">
                             <h2 class="text-base font-bold tracking-tight">
-                                Filter Lands
+                                Filter Properties
                             </h2>
                             <button
                                 type="button"

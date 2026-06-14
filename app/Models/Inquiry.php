@@ -8,7 +8,7 @@ class Inquiry extends Model
 {
     public const SUBJECTS = [
         'general' => 'General enquiry',
-        'lands' => 'Estates & Properties',
+        'lands' => 'Real Estate',
         'kennel_farm' => 'Kennel & Farm',
         'collections' => 'Collections',
         'gadgets' => 'Gadgets & Accessories',

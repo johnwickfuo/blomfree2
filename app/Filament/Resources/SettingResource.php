@@ -18,9 +18,17 @@ class SettingResource extends Resource
 
     protected static ?string $navigationGroup = 'System';
 
-    protected static ?string $navigationLabel = 'Settings';
+    protected static ?string $navigationLabel = 'Settings (raw)';
 
     protected static ?int $navigationSort = 99;
+
+    // The friendly "Site Settings" page is the recommended way to edit
+    // settings. This raw key/value resource is hidden by default and only
+    // surfaced if an admin needs to add a brand-new setting key.
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {

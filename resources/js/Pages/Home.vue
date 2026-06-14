@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { ArrowRight, Sparkles } from 'lucide-vue-next';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SeoMeta from '@/Components/SeoMeta.vue';
@@ -41,7 +41,7 @@ const props = withDefaults(
 );
 
 const tabs: { key: TabKey; label: string }[] = [
-    { key: 'lands', label: 'Lands' },
+    { key: 'lands', label: 'Real Estate' },
     { key: 'animals', label: 'Animals' },
     { key: 'collections', label: 'Collections' },
     { key: 'gadgets', label: 'Gadgets' },
@@ -66,6 +66,13 @@ const scrollToSubsidiaries = (): void => {
         .getElementById('subsidiaries')
         ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
+
+const page = usePage();
+const ceoImage = computed<string>(() => {
+    const url = (page.props.branding as { ceo_image_url?: string | null } | undefined)
+        ?.ceo_image_url;
+    return url || '/images/ceo.jpg';
+});
 </script>
 
 <template>
@@ -95,7 +102,7 @@ const scrollToSubsidiaries = (): void => {
                     class="absolute inset-y-0 right-0 hidden w-[46%] lg:block xl:w-[42%]"
                 >
                     <img
-                        src="/images/ceo.jpg"
+                        :src="ceoImage"
                         alt="Saturday Emomotimi Charles, CEO of BLOMFREE & CO."
                         class="h-full w-full object-cover object-top"
                     />
@@ -170,7 +177,7 @@ const scrollToSubsidiaries = (): void => {
                         aria-hidden="true"
                     />
                     <img
-                        src="/images/ceo.jpg"
+                        :src="ceoImage"
                         alt="Saturday Emomotimi Charles, CEO"
                         class="relative aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-xl"
                     />

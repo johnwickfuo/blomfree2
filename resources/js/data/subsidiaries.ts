@@ -10,8 +10,8 @@ export interface Subsidiary {
 
 export const subsidiaries: Subsidiary[] = [
     {
-        name: 'BLOMFREE Estates & Properties',
-        tagline: 'Premium lands at flood-free locations across Nigeria',
+        name: 'BLOMFREE Real Estate',
+        tagline: 'Premium real estate at flood-free locations across Nigeria',
         href: '/lands',
         icon: MapPin,
     },

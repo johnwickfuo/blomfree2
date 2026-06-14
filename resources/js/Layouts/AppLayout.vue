@@ -16,7 +16,7 @@ interface NavLink {
 const navLinks: NavLink[] = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Lands', href: '/lands' },
+    { label: 'Real Estate', href: '/lands' },
     { label: 'Kennel & Farm', href: '/kennel-farm' },
     { label: 'Collections', href: '/collections' },
     { label: 'Gadgets', href: '/gadgets' },
@@ -38,6 +38,10 @@ const scrolled = ref(false);
 const page = usePage();
 
 const cart = computed<CartData>(() => page.props.cart);
+const siteLogo = computed<string | null>(() => {
+    const url = (page.props.branding as { logo_url?: string | null } | undefined)?.logo_url;
+    return url || null;
+});
 
 const isActive = (href: string): boolean => {
     if (href === '/') return page.url === '/';
@@ -100,22 +104,30 @@ onBeforeUnmount(() => {
                     class="flex items-center gap-2.5"
                     @click="closeAll"
                 >
-                    <!-- Inline SVG bird placeholder -->
-                    <svg
-                        viewBox="0 0 32 32"
-                        fill="currentColor"
-                        class="h-7 w-7 shrink-0 text-brand-orange sm:h-8 sm:w-8"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M31 7.3c-1.1.5-2.3.8-3.5 1 1.3-.8 2.2-2 2.7-3.4-1.2.7-2.5 1.2-3.9 1.5C25.1 5.2 23.5 4.5 21.8 4.5c-3.4 0-6.1 2.7-6.1 6.1 0 .5.05.95.15 1.4-5.1-.25-9.6-2.7-12.6-6.4-.5.9-.85 2-.85 3.1 0 2.1 1.07 4 2.7 5.1-1-.03-1.95-.3-2.77-.76v.08c0 3 2.1 5.5 4.9 6-.5.15-1.05.2-1.6.2-.4 0-.78-.04-1.15-.1.78 2.4 3 4.2 5.65 4.25-2.07 1.62-4.68 2.6-7.5 2.6-.5 0-.97-.03-1.45-.08C3.9 27.9 7.1 29 10.55 29c11.45 0 17.7-9.5 17.7-17.7v-.8c1.2-.88 2.27-1.98 3.1-3.2z"
-                        />
-                    </svg>
-                    <span
-                        class="text-lg font-extrabold tracking-tight sm:text-xl"
-                    >
-                        BLOMFREE
-                    </span>
+                    <img
+                        v-if="siteLogo"
+                        :src="siteLogo"
+                        alt="BLOMFREE & CO."
+                        class="h-8 w-auto shrink-0 sm:h-10"
+                    />
+                    <template v-else>
+                        <!-- Inline SVG bird placeholder (used until an admin uploads a logo) -->
+                        <svg
+                            viewBox="0 0 32 32"
+                            fill="currentColor"
+                            class="h-7 w-7 shrink-0 text-brand-orange sm:h-8 sm:w-8"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M31 7.3c-1.1.5-2.3.8-3.5 1 1.3-.8 2.2-2 2.7-3.4-1.2.7-2.5 1.2-3.9 1.5C25.1 5.2 23.5 4.5 21.8 4.5c-3.4 0-6.1 2.7-6.1 6.1 0 .5.05.95.15 1.4-5.1-.25-9.6-2.7-12.6-6.4-.5.9-.85 2-.85 3.1 0 2.1 1.07 4 2.7 5.1-1-.03-1.95-.3-2.77-.76v.08c0 3 2.1 5.5 4.9 6-.5.15-1.05.2-1.6.2-.4 0-.78-.04-1.15-.1.78 2.4 3 4.2 5.65 4.25-2.07 1.62-4.68 2.6-7.5 2.6-.5 0-.97-.03-1.45-.08C3.9 27.9 7.1 29 10.55 29c11.45 0 17.7-9.5 17.7-17.7v-.8c1.2-.88 2.27-1.98 3.1-3.2z"
+                            />
+                        </svg>
+                        <span
+                            class="text-lg font-extrabold tracking-tight sm:text-xl"
+                        >
+                            BLOMFREE
+                        </span>
+                    </template>
                 </Link>
 
                 <!-- Desktop nav -->

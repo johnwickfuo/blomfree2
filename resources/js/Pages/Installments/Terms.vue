@@ -25,7 +25,7 @@ defineProps<{
                 <p>An installment plan lets you pay for an eligible item over time, instead of all at once. You commit to the total price, pay an initial down payment to activate the plan, then continue paying any amount you choose until your overall deadline.</p>
 
                 <h2>2. Eligibility</h2>
-                <p>Only items in <strong>BLOMFREE Estates &amp; Properties</strong> (lands) and <strong>BLOMFREE Gadgets &amp; Accessories</strong> can be purchased on installment. Collections (clothing) and Kennel &amp; Farm (animals) are <strong>not eligible</strong>.</p>
+                <p>Only items in <strong>BLOMFREE Real Estate</strong> and <strong>BLOMFREE Gadgets &amp; Accessories</strong> can be purchased on installment. Collections (clothing) and Kennel &amp; Farm (animals) are <strong>not eligible</strong>.</p>
 
                 <h2>3. Down payment</h2>
                 <p>Each item sets its own minimum down payment percentage (typically 25–40%). Your plan does not activate until your cumulative payments reach this minimum.</p>

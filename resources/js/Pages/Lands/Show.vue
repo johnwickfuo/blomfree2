@@ -102,7 +102,7 @@ const landSchema = computed(() => ({
 
 <template>
     <SeoMeta
-        :title="land.title + ' — BLOMFREE Estates'"
+        :title="land.title + ' — BLOMFREE Real Estate'"
         :description="land.number_of_plots + ' plot(s) in ' + land.city_or_lga + ', ' + land.state + '. ' + (land.is_flood_free ? 'Flood-free. ' : '') + 'From ' + land.price_per_plot + ' NGN per plot.'"
         :image="land.cover_url ?? undefined"
     />
@@ -115,7 +115,7 @@ const landSchema = computed(() => ({
                 class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-dark/60 transition-colors hover:text-brand-orange"
             >
                 <ChevronLeft class="h-4 w-4" />
-                Back to all lands
+                Back to all properties
             </Link>
 
             <div class="mt-6 grid gap-10 lg:grid-cols-3 lg:gap-12">
@@ -475,7 +475,7 @@ const landSchema = computed(() => ({
             <!-- Related lands -->
             <div v-if="related.length" class="mt-16">
                 <h2 class="text-2xl font-extrabold tracking-tight">
-                    More land in {{ land.state }}
+                    More properties in {{ land.state }}
                 </h2>
                 <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <Card

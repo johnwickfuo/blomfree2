@@ -11,10 +11,10 @@ Thank you for your interest in **{{ $inspection->inspectable?->title ?? 'a BLOMF
 @endcomponent
 @endif
 
-This does not affect your ability to book again. You are welcome to choose another date, or explore other available plots from our Estates portfolio.
+This does not affect your ability to book again. You are welcome to choose another date, or explore other available properties from our Real Estate portfolio.
 
 @component('mail::button', ['url' => $landsUrl])
-Browse Available Lands
+Browse Available Properties
 @endcomponent
 
 If you have any questions, simply reply to this email or reach us on WhatsApp.

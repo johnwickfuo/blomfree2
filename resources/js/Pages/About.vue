@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { ArrowRight, Target, Eye, Gem } from 'lucide-vue-next';
 import SeoMeta from '@/Components/SeoMeta.vue';
-import type { Component } from 'vue';
+import { computed, type Component } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Hero from '@/Components/Hero.vue';
 import Section from '@/Components/Section.vue';
@@ -17,6 +17,13 @@ interface Principle {
     body: string;
     icon: Component;
 }
+
+const page = usePage();
+const ceoImage = computed<string>(() => {
+    const url = (page.props.branding as { ceo_image_url?: string | null } | undefined)
+        ?.ceo_image_url;
+    return url || '/images/ceo.jpg';
+});
 
 const principles: Principle[] = [
     {
@@ -122,7 +129,7 @@ const principles: Principle[] = [
                             aria-hidden="true"
                         />
                         <img
-                            src="/images/ceo.jpg"
+                            :src="ceoImage"
                             alt="Saturday Emomotimi Charles, CEO of BLOMFREE & CO."
                             class="relative aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-xl"
                         />
