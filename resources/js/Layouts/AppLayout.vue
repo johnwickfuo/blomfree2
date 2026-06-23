@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
                         v-if="siteLogo"
                         :src="siteLogo"
                         alt="BLOMFREE & CO."
-                        class="h-8 w-auto shrink-0 sm:h-10"
+                        class="h-12 w-auto max-w-[180px] shrink-0 object-contain sm:h-14 sm:max-w-[220px]"
                     />
                     <template v-else>
                         <!-- Inline SVG bird placeholder (used until an admin uploads a logo) -->
@@ -188,19 +188,27 @@ onBeforeUnmount(() => {
                     <!-- Brand -->
                     <div class="lg:col-span-2">
                         <div class="flex items-center gap-2.5">
-                            <svg
-                                viewBox="0 0 32 32"
-                                fill="currentColor"
-                                class="h-7 w-7 text-brand-orange"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M31 7.3c-1.1.5-2.3.8-3.5 1 1.3-.8 2.2-2 2.7-3.4-1.2.7-2.5 1.2-3.9 1.5C25.1 5.2 23.5 4.5 21.8 4.5c-3.4 0-6.1 2.7-6.1 6.1 0 .5.05.95.15 1.4-5.1-.25-9.6-2.7-12.6-6.4-.5.9-.85 2-.85 3.1 0 2.1 1.07 4 2.7 5.1-1-.03-1.95-.3-2.77-.76v.08c0 3 2.1 5.5 4.9 6-.5.15-1.05.2-1.6.2-.4 0-.78-.04-1.15-.1.78 2.4 3 4.2 5.65 4.25-2.07 1.62-4.68 2.6-7.5 2.6-.5 0-.97-.03-1.45-.08C3.9 27.9 7.1 29 10.55 29c11.45 0 17.7-9.5 17.7-17.7v-.8c1.2-.88 2.27-1.98 3.1-3.2z"
-                                />
-                            </svg>
-                            <span class="text-xl font-extrabold tracking-tight">
-                                BLOMFREE
-                            </span>
+                            <img
+                                v-if="siteLogo"
+                                :src="siteLogo"
+                                alt="BLOMFREE & CO."
+                                class="h-14 w-auto max-w-[220px] object-contain"
+                            />
+                            <template v-else>
+                                <svg
+                                    viewBox="0 0 32 32"
+                                    fill="currentColor"
+                                    class="h-7 w-7 text-brand-orange"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M31 7.3c-1.1.5-2.3.8-3.5 1 1.3-.8 2.2-2 2.7-3.4-1.2.7-2.5 1.2-3.9 1.5C25.1 5.2 23.5 4.5 21.8 4.5c-3.4 0-6.1 2.7-6.1 6.1 0 .5.05.95.15 1.4-5.1-.25-9.6-2.7-12.6-6.4-.5.9-.85 2-.85 3.1 0 2.1 1.07 4 2.7 5.1-1-.03-1.95-.3-2.77-.76v.08c0 3 2.1 5.5 4.9 6-.5.15-1.05.2-1.6.2-.4 0-.78-.04-1.15-.1.78 2.4 3 4.2 5.65 4.25-2.07 1.62-4.68 2.6-7.5 2.6-.5 0-.97-.03-1.45-.08C3.9 27.9 7.1 29 10.55 29c11.45 0 17.7-9.5 17.7-17.7v-.8c1.2-.88 2.27-1.98 3.1-3.2z"
+                                    />
+                                </svg>
+                                <span class="text-xl font-extrabold tracking-tight">
+                                    BLOMFREE
+                                </span>
+                            </template>
                         </div>
                         <p
                             class="mt-3 text-sm font-semibold text-brand-orange"
