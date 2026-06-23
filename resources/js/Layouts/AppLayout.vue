@@ -20,6 +20,7 @@ const navLinks: NavLink[] = [
     { label: 'Kennel & Farm', href: '/kennel-farm' },
     { label: 'Collections', href: '/collections' },
     { label: 'Gadgets', href: '/gadgets' },
+    { label: 'Affiliate', href: '/affiliate' },
     { label: 'Contact', href: '/contact' },
 ];
 
@@ -184,7 +185,7 @@ onBeforeUnmount(() => {
         <!-- Footer -->
         <footer class="bg-brand-dark text-white">
             <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-                <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
                     <!-- Brand -->
                     <div class="lg:col-span-2">
                         <div class="flex items-center gap-2.5">
@@ -218,6 +219,36 @@ onBeforeUnmount(() => {
                         <p class="mt-2 text-sm text-white/60">
                             BLOMFREE &amp; CO. NIG. LTD
                         </p>
+                    </div>
+
+                    <!-- Programs -->
+                    <div>
+                        <h3
+                            class="text-sm font-bold uppercase tracking-wider text-white/90"
+                        >
+                            Programs
+                        </h3>
+                        <ul class="mt-4 space-y-3 text-sm">
+                            <li>
+                                <Link
+                                    href="/affiliate"
+                                    class="font-medium text-white/75 transition-colors hover:text-white"
+                                >
+                                    Become an Affiliate
+                                </Link>
+                                <p class="mt-0.5 text-xs text-white/45">
+                                    Earn commission on every referral.
+                                </p>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/track"
+                                    class="font-medium text-white/75 transition-colors hover:text-white"
+                                >
+                                    Track an Order
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
 
                     <!-- Contact -->
