@@ -32,6 +32,14 @@ class SettingSeeder extends Seeder
             'installment_admin_notification_email' => 'admin@blomfree.com',
             'installment_due_reminder_days_before' => '3',
             'installment_overdue_warning_days' => '30,14,7,3,1',
+            // Payment gateway credentials — populated by admin via the
+            // Site Settings page. Empty defaults fall back to .env.
+            'paystack_public_key' => '',
+            'paystack_secret_key' => '',
+            'flutterwave_public_key' => '',
+            'flutterwave_secret_key' => '',
+            'flutterwave_encryption_key' => '',
+            'flutterwave_secret_hash' => '',
         ];
 
         foreach ($defaults as $key => $value) {

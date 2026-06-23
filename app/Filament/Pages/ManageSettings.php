@@ -68,6 +68,16 @@ class ManageSettings extends Page implements HasForms
             'installment_terms_version' => Setting::get('installment_terms_version', 'v1.0'),
             'installment_due_reminder_days_before' => (int) Setting::get('installment_due_reminder_days_before', '3'),
             'installment_overdue_warning_days' => Setting::get('installment_overdue_warning_days', '30,14,7,3,1'),
+
+            // Payments — secrets are pre-filled with the decrypted value so
+            // the admin can see the existing key as masked dots and either
+            // leave it or replace it.
+            'paystack_public_key' => Setting::get('paystack_public_key'),
+            'paystack_secret_key' => Setting::getSecret('paystack_secret_key'),
+            'flutterwave_public_key' => Setting::get('flutterwave_public_key'),
+            'flutterwave_secret_key' => Setting::getSecret('flutterwave_secret_key'),
+            'flutterwave_encryption_key' => Setting::getSecret('flutterwave_encryption_key'),
+            'flutterwave_secret_hash' => Setting::getSecret('flutterwave_secret_hash'),
         ]);
     }
 
@@ -248,6 +258,53 @@ class ManageSettings extends Page implements HasForms
                                             ->helperText('Comma-separated list of days past due when a warning is sent.'),
                                     ]),
                             ]),
+
+                        Tabs\Tab::make('Payments')
+                            ->icon('heroicon-o-credit-card')
+                            ->schema([
+                                Section::make('Paystack')
+                                    ->description('Credentials are stored encrypted. Use test keys (pk_test_… / sk_test_…) until you are ready to take live payments. Leaving the keys blank falls back to whatever is set in the server .env file.')
+                                    ->columns(2)
+                                    ->schema([
+                                        TextInput::make('paystack_public_key')
+                                            ->label('Public key')
+                                            ->placeholder('pk_test_… or pk_live_…')
+                                            ->maxLength(255),
+                                        TextInput::make('paystack_secret_key')
+                                            ->label('Secret key')
+                                            ->password()
+                                            ->revealable()
+                                            ->placeholder('sk_test_… or sk_live_…')
+                                            ->maxLength(255)
+                                            ->helperText('Webhook signature uses this same secret — no separate hash needed.'),
+                                    ]),
+                                Section::make('Flutterwave')
+                                    ->description('Credentials are stored encrypted. The webhook hash must match what you set in the Flutterwave dashboard under Settings → Webhooks.')
+                                    ->columns(2)
+                                    ->schema([
+                                        TextInput::make('flutterwave_public_key')
+                                            ->label('Public key')
+                                            ->placeholder('FLWPUBK_TEST-… or FLWPUBK-…')
+                                            ->maxLength(255),
+                                        TextInput::make('flutterwave_secret_key')
+                                            ->label('Secret key')
+                                            ->password()
+                                            ->revealable()
+                                            ->placeholder('FLWSECK_TEST-… or FLWSECK-…')
+                                            ->maxLength(255),
+                                        TextInput::make('flutterwave_encryption_key')
+                                            ->label('Encryption key')
+                                            ->password()
+                                            ->revealable()
+                                            ->maxLength(255),
+                                        TextInput::make('flutterwave_secret_hash')
+                                            ->label('Webhook secret hash')
+                                            ->password()
+                                            ->revealable()
+                                            ->maxLength(255)
+                                            ->helperText('Used to verify incoming webhook requests.'),
+                                    ]),
+                            ]),
                     ])
                     ->columnSpanFull(),
             ]);
@@ -285,6 +342,14 @@ class ManageSettings extends Page implements HasForms
         Setting::set('installment_terms_version', (string) ($data['installment_terms_version'] ?? 'v1.0'));
         Setting::set('installment_due_reminder_days_before', (string) (int) ($data['installment_due_reminder_days_before'] ?? 3));
         Setting::set('installment_overdue_warning_days', (string) ($data['installment_overdue_warning_days'] ?? '30,14,7,3,1'));
+
+        // Payments — public keys are plain text; everything else is encrypted at rest.
+        Setting::set('paystack_public_key', (string) ($data['paystack_public_key'] ?? ''));
+        Setting::setSecret('paystack_secret_key', $data['paystack_secret_key'] ?? null);
+        Setting::set('flutterwave_public_key', (string) ($data['flutterwave_public_key'] ?? ''));
+        Setting::setSecret('flutterwave_secret_key', $data['flutterwave_secret_key'] ?? null);
+        Setting::setSecret('flutterwave_encryption_key', $data['flutterwave_encryption_key'] ?? null);
+        Setting::setSecret('flutterwave_secret_hash', $data['flutterwave_secret_hash'] ?? null);
 
         Notification::make()
             ->title('Settings saved')
