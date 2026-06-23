@@ -17,11 +17,13 @@ class Setting extends Model
 
     /**
      * Resolve a setting that stores a path on the public disk into a
-     * browser-accessible URL. Appends a cache-busting query string keyed to
-     * the file's mtime so updated images aren't masked by browser cache.
-     * Returns null when the setting is empty; if the path is set but the
-     * file is unreachable, the URL is still returned so the broken image
-     * is a visible diagnostic (rather than silently falling back).
+     * browser-accessible URL. The URL is emitted path-only (no scheme or
+     * host) so the browser resolves it against the current page origin —
+     * which sidesteps an APP_URL that's set to http while the site is
+     * served over https (mixed-content blocking), or APP_URL pointing at
+     * a slightly different hostname.
+     * Returns null when the setting is empty. Appends a cache-busting
+     * ?v=<mtime> when the file exists.
      */
     public static function publicUrl(string $key): ?string
     {
@@ -31,11 +33,11 @@ class Setting extends Model
             return null;
         }
 
-        $disk = Storage::disk('public');
-        $url = $disk->url($path);
+        $url = '/storage/'.ltrim($path, '/');
 
+        $disk = Storage::disk('public');
         if ($disk->exists($path)) {
-            $url .= (str_contains($url, '?') ? '&' : '?').'v='.$disk->lastModified($path);
+            $url .= '?v='.$disk->lastModified($path);
         }
 
         return $url;
