@@ -31,6 +31,8 @@ class ManageSettings extends Page implements HasForms
 
     protected static string $view = 'filament.pages.manage-settings';
 
+    protected static ?string $slug = 'manage-settings';
+
     protected static ?string $title = 'Site Settings';
 
     public ?array $data = [];
