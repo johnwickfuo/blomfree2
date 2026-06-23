@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
-import { Menu, X, ShoppingCart, Instagram, Facebook, AlertTriangle } from 'lucide-vue-next';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { Menu, X, ShoppingCart, Instagram, Facebook, AlertTriangle, UserCircle } from 'lucide-vue-next';
 import CartLineItem from '@/Components/CartLineItem.vue';
 import Button from '@/Components/Button.vue';
 import { formatNaira } from '@/lib/format';
@@ -43,6 +43,25 @@ const siteLogo = computed<string | null>(() => {
     const url = (page.props.branding as { logo_url?: string | null } | undefined)?.logo_url;
     return url || null;
 });
+
+interface AuthShape {
+    user?: { name: string; email: string; is_admin?: boolean } | null;
+    is_affiliate?: boolean;
+}
+const authUser = computed(() => (page.props.auth as AuthShape | undefined)?.user ?? null);
+const isAffiliate = computed(
+    () => (page.props.auth as AuthShape | undefined)?.is_affiliate === true,
+);
+const isAdmin = computed(() => authUser.value?.is_admin === true);
+const accountHref = computed(() => {
+    if (isAdmin.value) return '/admin';
+    if (isAffiliate.value) return '/affiliate/dashboard';
+    return '/account';
+});
+
+const logout = (): void => {
+    router.post('/logout');
+};
 
 const isActive = (href: string): boolean => {
     if (href === '/') return page.url === '/';
@@ -148,8 +167,33 @@ onBeforeUnmount(() => {
                     </Link>
                 </nav>
 
-                <!-- Right cluster: cart + hamburger -->
+                <!-- Right cluster: auth + cart + hamburger -->
                 <div class="flex items-center gap-1 sm:gap-2">
+                    <!-- Logged-out: Log in + Register on desktop -->
+                    <template v-if="!authUser">
+                        <Link
+                            href="/login"
+                            class="hidden rounded-full px-3.5 py-2 text-sm font-semibold text-white/80 transition-colors hover:text-white lg:inline-flex"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            href="/register"
+                            class="hidden rounded-full bg-brand-orange px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-orangeDark lg:inline-flex"
+                        >
+                            Register
+                        </Link>
+                    </template>
+                    <!-- Logged-in: account link on desktop -->
+                    <Link
+                        v-else
+                        :href="accountHref"
+                        class="hidden items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold text-white/80 transition-colors hover:text-white lg:inline-flex"
+                    >
+                        <UserCircle class="h-4 w-4" />
+                        My account
+                    </Link>
+
                     <button
                         type="button"
                         class="relative rounded-full p-2.5 text-white/90 transition-colors hover:bg-white/10 hover:text-white"
@@ -429,6 +473,44 @@ onBeforeUnmount(() => {
                         >
                             {{ link.label }}
                         </Link>
+
+                        <div class="my-2 border-t border-white/10"></div>
+
+                        <!-- Mobile auth controls -->
+                        <template v-if="!authUser">
+                            <Link
+                                href="/login"
+                                class="rounded-xl px-4 py-3 text-base font-semibold text-white/85 transition-colors hover:bg-white/5 hover:text-white"
+                                @click="mobileOpen = false"
+                            >
+                                Log in
+                            </Link>
+                            <Link
+                                href="/register"
+                                class="rounded-xl bg-brand-orange px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orangeDark"
+                                @click="mobileOpen = false"
+                            >
+                                Register
+                            </Link>
+                        </template>
+                        <template v-else>
+                            <Link
+                                :href="accountHref"
+                                class="flex items-center gap-2 rounded-xl px-4 py-3 text-base font-semibold text-white/85 transition-colors hover:bg-white/5 hover:text-white"
+                                @click="mobileOpen = false"
+                            >
+                                <UserCircle class="h-5 w-5" />
+                                My account
+                            </Link>
+                            <button
+                                type="button"
+                                class="flex items-center gap-2 rounded-xl px-4 py-3 text-left text-base font-semibold text-white/85 transition-colors hover:bg-white/5 hover:text-white"
+                                @click="mobileOpen = false; logout()"
+                            >
+                                <X class="h-5 w-5" />
+                                Log out
+                            </button>
+                        </template>
                     </nav>
                     <div class="mt-auto border-t border-white/10 p-5">
                         <a

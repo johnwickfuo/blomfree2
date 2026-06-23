@@ -120,11 +120,18 @@ Route::post('/webhooks/paystack', [WebhookController::class, 'paystack'])->name(
 Route::post('/webhooks/flutterwave', [WebhookController::class, 'flutterwave'])->name('webhooks.flutterwave');
 
 Route::get('/dashboard', function () {
+    /** @var \App\Models\User $user */
     $user = auth()->user();
-    if ($user && $user->is_affiliate) {
-        return redirect()->route('affiliate.dashboard');
-    }
-    return Inertia::render('Dashboard');
+
+    return Inertia::render('Dashboard', [
+        'user' => [
+            'name' => $user->name,
+            'email' => $user->email,
+        ],
+        'isAdmin' => (bool) $user->is_admin,
+        'isAffiliate' => (bool) $user->is_affiliate,
+        'installmentCount' => $user->installmentPlans()->count(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 /*
