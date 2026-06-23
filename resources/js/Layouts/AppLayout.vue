@@ -303,8 +303,29 @@ onBeforeUnmount(() => {
                 <div
                     class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50"
                 >
-                    &copy; {{ year }} BLOMFREE &amp; CO. NIG. LTD. All rights
-                    reserved.
+                    <p>
+                        &copy; {{ year }} BLOMFREE &amp; CO. NIG. LTD. All
+                        rights reserved.
+                    </p>
+                    <p class="mt-2">
+                        Built by
+                        <a
+                            href="https://wa.me/2349064140868"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-semibold text-brand-orange transition-colors hover:text-brand-orangeDark"
+                        >
+                            Africode Studio</a>
+                        &nbsp;&middot;&nbsp;Want a site like this?
+                        <a
+                            href="https://wa.me/2349064140868"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-semibold text-brand-orange transition-colors hover:text-brand-orangeDark"
+                        >
+                            Chat on WhatsApp
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>
