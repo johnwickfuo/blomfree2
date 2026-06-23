@@ -140,8 +140,12 @@ Route::get('/dashboard', function () {
  */
 Route::get('/affiliate', [AffiliateController::class, 'landing'])->name('affiliate.landing')->middleware('edge-cache');
 Route::get('/affiliate/terms', [AffiliateController::class, 'terms'])->name('affiliate.terms')->middleware('edge-cache');
+// GET is public so AffiliateController::signupForm can redirect logged-in
+// users to the right destination (existing affiliate -> dashboard; new
+// customer -> /account/affiliate/become; admin -> message). POST stays
+// guest-only — existing accounts use /account/affiliate/become.
+Route::get('/affiliate/signup', [AffiliateController::class, 'signupForm'])->name('affiliate.signup');
 Route::middleware('guest')->group(function () {
-    Route::get('/affiliate/signup', [AffiliateController::class, 'signupForm'])->name('affiliate.signup');
     Route::post('/affiliate/signup', [AffiliateController::class, 'signup'])
         ->middleware('throttle:3,1440');
 });
@@ -200,6 +204,10 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
     Route::get('/installments/{plan}/payments/{payment}/receipt', [AccountController::class, 'paymentReceipt'])->name('installments.receipt');
     Route::get('/installments/{plan}/statement', [AccountController::class, 'planStatement'])->name('installments.statement');
     Route::get('/orders', [AccountController::class, 'orders'])->name('orders');
+    Route::get('/affiliate/become', [AccountController::class, 'affiliateBecomeForm'])->name('affiliate.become');
+    Route::post('/affiliate/become', [AccountController::class, 'affiliateBecomeStore'])
+        ->middleware('throttle:3,60')
+        ->name('affiliate.become.store');
     Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
     Route::patch('/profile', [AccountController::class, 'updateProfile'])->name('profile.update');
     Route::put('/password', [AccountController::class, 'updatePassword'])->name('password.update');

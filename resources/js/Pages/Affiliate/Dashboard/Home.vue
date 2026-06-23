@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Copy, Check } from 'lucide-vue-next';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import Button from '@/Components/Button.vue';
 import { formatNaira } from '@/lib/format';
 
@@ -47,7 +47,7 @@ const flash = usePage().props.flash;
 <template>
     <Head title="Affiliate dashboard" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <h1 class="text-2xl font-extrabold tracking-tight">Welcome, {{ affiliate.name }}</h1>
 
         <div v-if="flash?.success" class="mt-4 rounded-xl bg-green-50 p-4 text-sm text-green-900">
@@ -129,5 +129,5 @@ const flash = usePage().props.flash;
                 No commissions yet. Share your code to start earning.
             </p>
         </section>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>

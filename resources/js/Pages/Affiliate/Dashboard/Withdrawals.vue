@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import Button from '@/Components/Button.vue';
 import { formatNaira } from '@/lib/format';
 
@@ -41,7 +41,7 @@ const statusColor = (s: string): string =>
 <template>
     <Head title="Withdrawals" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-2xl font-extrabold tracking-tight">Withdrawals</h1>
             <Button href="/affiliate/dashboard/withdrawals/new">Request a withdrawal</Button>
@@ -94,5 +94,5 @@ const statusColor = (s: string): string =>
                 }"
             />
         </nav>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>

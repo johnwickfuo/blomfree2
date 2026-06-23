@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import Button from '@/Components/Button.vue';
 
 interface Affiliate {
@@ -27,7 +27,7 @@ const flash = usePage().props.flash;
 <template>
     <Head title="Bank details" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <h1 class="text-2xl font-extrabold tracking-tight">Bank details</h1>
         <p class="mt-1 text-brand-dark/70">We pay withdrawals to this account.</p>
 
@@ -52,5 +52,5 @@ const flash = usePage().props.flash;
 
             <Button type="submit" :disabled="form.processing">{{ form.processing ? 'Saving…' : 'Save bank details' }}</Button>
         </form>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>

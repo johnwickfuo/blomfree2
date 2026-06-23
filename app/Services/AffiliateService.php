@@ -66,6 +66,42 @@ class AffiliateService
     }
 
     /**
+     * Upgrade an existing logged-in customer into an affiliate. Flips
+     * is_affiliate on the user and creates the Affiliate row + welcome
+     * emails. Used by the /account/affiliate/become flow.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function createForExistingUser(User $user, array $data): Affiliate
+    {
+        return DB::transaction(function () use ($user, $data): Affiliate {
+            if ($user->affiliate) {
+                return $user->affiliate;
+            }
+
+            $user->update(['is_affiliate' => true]);
+
+            $affiliate = Affiliate::create([
+                'user_id' => $user->id,
+                'whatsapp_number' => $data['whatsapp_number'] ?? $user->phone,
+                'social_handles' => $data['social_handles'] ?? [],
+                'status' => Setting::get('affiliate_auto_approve_signup', '1') === '0'
+                    ? 'suspended'
+                    : 'active',
+                'joined_at' => now(),
+            ]);
+
+            $this->safeMail($user->email, new AffiliateWelcomeEmail($affiliate));
+
+            $adminEmail = Setting::get('affiliate_admin_notification_email')
+                ?: Setting::get('admin_notification_email', 'admin@blomfree.com');
+            $this->safeMail($adminEmail, new AdminNewAffiliateSignup($affiliate));
+
+            return $affiliate;
+        });
+    }
+
+    /**
      * Validate an affiliate code submitted at checkout. Returns the active
      * Affiliate or null. Suspended affiliates are treated as not-found so the
      * frontend never reveals their suspension status.

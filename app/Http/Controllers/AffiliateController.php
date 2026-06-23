@@ -38,8 +38,26 @@ class AffiliateController extends Controller
         ]);
     }
 
-    public function signupForm(): Response
+    public function signupForm(): Response|RedirectResponse
     {
+        // The `guest` middleware on this route was bouncing logged-in
+        // users to /dashboard. Send them to the right place instead:
+        // existing affiliates -> their dashboard; admins -> a clear
+        // explanation; everyone else -> the short upgrade form that
+        // doesn't ask for name/email/password again.
+        $user = Auth::user();
+        if ($user) {
+            if ($user->is_admin) {
+                return redirect()->route('account.dashboard')
+                    ->with('error', 'Admin accounts cannot join the affiliate program. Use a separate customer account.');
+            }
+            if ($user->is_affiliate) {
+                return redirect()->route('affiliate.dashboard');
+            }
+
+            return redirect()->route('account.affiliate.become');
+        }
+
         return Inertia::render('Affiliate/Signup');
     }
 

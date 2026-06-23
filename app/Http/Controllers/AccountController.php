@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\InstallmentPayment;
 use App\Models\InstallmentPlan;
 use App\Models\Order;
+use App\Services\AffiliateService;
 use App\Services\InstallmentService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
@@ -19,8 +20,10 @@ use Inertia\Response as InertiaResponse;
 
 class AccountController extends Controller
 {
-    public function __construct(private readonly InstallmentService $installments)
-    {
+    public function __construct(
+        private readonly InstallmentService $installments,
+        private readonly AffiliateService $affiliates,
+    ) {
     }
 
     public function dashboard(): InertiaResponse
@@ -189,6 +192,60 @@ class AccountController extends Controller
         Auth::user()->update($data);
 
         return back()->with('success', 'Bank details updated.');
+    }
+
+    public function affiliateBecomeForm(): RedirectResponse|InertiaResponse
+    {
+        $user = Auth::user();
+
+        if ($user->is_admin) {
+            return redirect()->route('account.dashboard')
+                ->with('error', 'Admin accounts cannot join the affiliate program. Use a separate customer account.');
+        }
+
+        if ($user->is_affiliate) {
+            return redirect()->route('affiliate.dashboard');
+        }
+
+        return Inertia::render('Account/BecomeAffiliate', [
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+            ],
+        ]);
+    }
+
+    public function affiliateBecomeStore(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        if ($user->is_admin) {
+            return redirect()->route('account.dashboard')
+                ->with('error', 'Admin accounts cannot join the affiliate program.');
+        }
+
+        if ($user->is_affiliate) {
+            return redirect()->route('affiliate.dashboard');
+        }
+
+        $data = $request->validate([
+            'whatsapp_number' => ['nullable', 'string', 'regex:/^(\+?234|0)[789]\d{9}$/'],
+            'social_handles' => ['nullable', 'array'],
+            'social_handles.instagram' => ['nullable', 'string', 'max:100'],
+            'social_handles.twitter' => ['nullable', 'string', 'max:100'],
+            'social_handles.tiktok' => ['nullable', 'string', 'max:100'],
+            'social_handles.facebook' => ['nullable', 'string', 'max:100'],
+            'agreed_to_terms' => ['accepted'],
+        ]);
+
+        $affiliate = $this->affiliates->createForExistingUser($user, $data);
+
+        $message = $affiliate->isSuspended()
+            ? 'Application received. We will review it and email you shortly.'
+            : "Welcome aboard! Your affiliate code is {$affiliate->code}.";
+
+        return redirect()->route('affiliate.dashboard')->with('success', $message);
     }
 
     public function orders(): InertiaResponse

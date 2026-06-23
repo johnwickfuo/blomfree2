@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Share2, Wallet, ShieldCheck, TrendingUp } from 'lucide-vue-next';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Section from '@/Components/Section.vue';
@@ -11,6 +12,26 @@ defineProps<{
     commissionHoldDays: number;
     minimumWithdrawal: number;
 }>();
+
+interface AuthShape {
+    user?: { name: string; is_admin?: boolean } | null;
+    is_affiliate?: boolean;
+}
+const auth = computed(() => usePage().props.auth as AuthShape | undefined);
+const signupHref = computed(() => {
+    const a = auth.value;
+    if (!a?.user) return '/affiliate/signup';
+    if (a.user.is_admin) return '/account';
+    if (a.is_affiliate) return '/affiliate/dashboard';
+    return '/account/affiliate/become';
+});
+const signupLabel = computed(() => {
+    const a = auth.value;
+    if (!a?.user) return 'Create your code';
+    if (a.user.is_admin) return 'Admin accounts cannot join';
+    if (a.is_affiliate) return 'Go to your dashboard';
+    return 'Activate my affiliate code';
+});
 </script>
 
 <template>
@@ -32,7 +53,7 @@ defineProps<{
             </p>
 
             <div class="mt-8 flex flex-wrap gap-3">
-                <Button href="/affiliate/signup" size="lg">Create your code</Button>
+                <Button :href="signupHref" size="lg">{{ signupLabel }}</Button>
                 <Button href="/affiliate/terms" variant="outline" size="lg">Read the terms</Button>
             </div>
 

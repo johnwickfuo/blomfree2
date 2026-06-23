@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import { formatNaira } from '@/lib/format';
 
 interface OrderRow {
@@ -29,7 +29,7 @@ const formatDate = (iso: string | null): string =>
 <template>
     <Head title="Referred orders" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <h1 class="text-2xl font-extrabold tracking-tight">Referred orders</h1>
         <p class="mt-1 text-brand-dark/70">Every order placed with your code.</p>
 
@@ -76,5 +76,5 @@ const formatDate = (iso: string | null): string =>
                 }"
             />
         </nav>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>

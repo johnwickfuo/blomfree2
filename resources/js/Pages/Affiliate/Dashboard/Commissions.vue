@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import { formatNaira } from '@/lib/format';
 
 interface Commission {
@@ -54,7 +54,7 @@ const statusColor = (s: string): string =>
 <template>
     <Head title="Commissions" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <h1 class="text-2xl font-extrabold tracking-tight">Commissions</h1>
 
         <div class="mt-4 flex flex-wrap gap-2">
@@ -117,5 +117,5 @@ const statusColor = (s: string): string =>
                 }"
             />
         </nav>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>

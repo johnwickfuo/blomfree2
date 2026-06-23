@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AffiliateLayout from '@/Layouts/AffiliateLayout.vue';
+import AccountLayout from '@/Layouts/AccountLayout.vue';
 import Button from '@/Components/Button.vue';
 import { formatNaira } from '@/lib/format';
 
@@ -39,7 +39,7 @@ const submit = (): void => {
 <template>
     <Head title="Request a withdrawal" />
 
-    <AffiliateLayout>
+    <AccountLayout>
         <h1 class="text-2xl font-extrabold tracking-tight">Request a withdrawal</h1>
 
         <div v-if="!affiliate.has_bank_details" class="mt-6 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm">
@@ -86,5 +86,5 @@ const submit = (): void => {
                 {{ form.processing ? 'Submitting…' : 'Submit request' }}
             </Button>
         </form>
-    </AffiliateLayout>
+    </AccountLayout>
 </template>
